@@ -17,19 +17,21 @@ class ProductController {
     }
     static editProduct (req, res, next){
         const {name, image_url, price, stock} = req.body;
+        console.log('test')
         let id = req.params.id;
-        let the_product;
         Product.findByPk(id)
         .then((product)=>{
             if(product){
-                the_product = product;
                 return Product.update({name, image_url, price, stock}, {where: {id:id}})
             }else{
                 throw new Error('Product Not Found');
             }
         })
-        .then(() =>{
-            res.status(200).json({product: the_product})
+        .then(() => {
+            return Product.findByPk(id);
+        })
+        .then((product)=>{
+            res.status(200).json({product});
         })
         .catch(next);
     }

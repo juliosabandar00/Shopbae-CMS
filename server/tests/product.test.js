@@ -19,7 +19,12 @@ const invalid_product = {
     price: null,
     stock: null
 }
-
+const negative_product = {
+    name: 'N95 Mask',
+    image_url: 'https://www.envirosafetyproducts.com/media/product/160/3mtm-8511-n95-particulate-respirator-box-of-10-b2f.jpg',
+    price: -10,
+    stock: -10
+}
 const validUser = {
     username: 'Admin',
     role: 'Admin',
@@ -28,7 +33,8 @@ const validUser = {
 let access_token = null;
 let invalid_access_token = null;
 let non_admin_access_token = null;
-
+let id = 12;
+let invalidId = 99;
 beforeAll(() => {
     non_admin_access_token = jwt.sign({
         userId: 1,
@@ -45,7 +51,7 @@ beforeAll(() => {
         });
 });
 
-describe('Product routes testing', ()=> {
+describe('Product routes testing', () => {
     describe('GET /product', ()=> {
         test('Show Product Success', function(done){
             return request(app)
@@ -57,9 +63,9 @@ describe('Product routes testing', ()=> {
                 expect(body).toHaveProperty('products');
                 expect(Array.isArray(body.products)).toBe(true);
                 done();
-            })
+            });
         });
-    })
+    }); 
     describe('POST /product', ()=>{
         test('Add Product Success', function(done){
             return request(app)
@@ -76,7 +82,7 @@ describe('Product routes testing', ()=> {
                 expect(body.product).toHaveProperty('price', created_product.price);
                 expect(body.product).toHaveProperty('stock', created_product.stock);
                 done();
-            })
+            });
         });
         test('Add Product Failure(Validation Error)', function(done){
             return request(app)
@@ -85,7 +91,19 @@ describe('Product routes testing', ()=> {
             .send(invalid_product)
             .then(response=>{
                 const {body,status} = response;
-                expect(status).toBe(401);
+                expect(status).toBe(400);
+                expect(body).toHaveProperty('message', 'Invalid Input');
+                done();
+            });
+        });
+        test('Add Product Failure (Negative Integer Input)', function(done){
+            return request(app)
+            .post('/product')
+            .set('access_token', access_token)
+            .send(negative_product)
+            .then(response=>{
+                const {body,status} = response;
+                expect(status).toBe(400);
                 expect(body).toHaveProperty('message', 'Invalid Input');
                 done();
             });
@@ -116,14 +134,13 @@ describe('Product routes testing', ()=> {
         });
     });
     describe('PUT /product/:id', ()=> {
-        let id = 1;
-        let invalidId = 99;
         test('Update Product Success', function(done){
             return request(app)
             .put('/product/' + id)
             .set('access_token', access_token)
             .send(updated_product)
             .then(response=>{
+                console.log(response);
                 const {body,status} = response;
                 expect(status).toBe(200);
                 console.log(body);
@@ -142,7 +159,19 @@ describe('Product routes testing', ()=> {
             .send(invalid_product)
             .then(response=>{
                 const {body,status} = response;
-                expect(status).toBe(401);
+                expect(status).toBe(400);
+                expect(body).toHaveProperty('message', 'Invalid Input');
+                done();
+            });
+        });
+        test('Update Product Failure (Negative Integer Input)', function(done){
+            return request(app)
+            .put('/product/' + id)
+            .set('access_token', access_token)
+            .send(negative_product)
+            .then(response=>{
+                const {body,status} = response;
+                expect(status).toBe(400);
                 expect(body).toHaveProperty('message', 'Invalid Input');
                 done();
             });
@@ -185,19 +214,6 @@ describe('Product routes testing', ()=> {
         });
     });
     describe('DELETE /product/:id', ()=> {
-        let id = 1;
-        let invalidId = 99;
-        test('Delete Product Success', function(done){
-            return request(app)
-            .delete('/product/' + id)
-            .set('access_token', access_token)
-            .then(response=>{
-                const {body,status} = response;
-                expect(status).toBe(200);
-                console.log(body);
-                done();
-            });
-        });
         test('Delete Product Failure (Non Admin User)', function(done){
             return request(app)
             .delete('/product/' + id)
@@ -231,6 +247,16 @@ describe('Product routes testing', ()=> {
                 done();
             });
         });
+        test('Delete Product Success', function(done){
+            return request(app)
+            .delete('/product/' + id)
+            .set('access_token', access_token)
+            .then(response=>{
+                const {body,status} = response;
+                expect(status).toBe(200);
+                console.log(body);
+                done();
+            });
+        });
     });
-
 });

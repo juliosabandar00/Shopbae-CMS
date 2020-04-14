@@ -25,7 +25,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: true,
-        notNull: true
+        notNull: true,
+        notNegative(value){
+          if(value < 0) {
+            throw new Error('Price/Stock cannot be negative!');
+          }
+        }
       }
     },
     stock: {
@@ -33,7 +38,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notEmpty: true,
-        notNull: true
+        notNull: true,
+        notNegative(value){
+          if(value < 0){
+            throw new Error('Price/Stock cannot be negative!');
+          }
+        }  
       }
     },
   }, { sequelize });
