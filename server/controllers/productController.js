@@ -1,13 +1,15 @@
 const { Product } = require('../models');
 class ProductController {
     static showProducts (req, res, next){
-        Product.findAll({order: [['id', 'DESC']]})
+        Product.findAll({order: [['id', 'ASC']]})
         .then((products)=>{
             res.status(200).json({products})
         })
         .catch(next);
     }
     static addProduct (req, res, next){
+        console.log('Passed')
+        console.log(req.body);
         const {name, image_url, price, stock} = req.body;
         Product.create({name, image_url, price, stock})
         .then((product)=>{

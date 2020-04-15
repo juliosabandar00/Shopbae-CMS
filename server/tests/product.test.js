@@ -26,8 +26,7 @@ const negative_product = {
     stock: -10
 }
 const validUser = {
-    username: 'Admin',
-    role: 'Admin',
+    email: 'kjuliosabandar@gmail.com',
     password: 'password'
 }
 let access_token = null;
@@ -40,8 +39,7 @@ beforeAll(() => {
         userId: 1,
         email: 'kjuliosabandar@gmail.com',
         username: 'Admin',
-        role: 'Customer',
-        password: 'password'
+        role: 'Customer'
     }, process.env.JWT_SECRETKEY);
     return request(app)
         .post('/login')

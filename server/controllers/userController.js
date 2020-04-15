@@ -6,7 +6,7 @@ class UserController {
     static login(req, res, next){
         console.log(req.body)
         let input = req.body;
-        User.findOne({where : {username : input.username}})
+        User.findOne({where : {email : input.email}})
 		.then( user => {
 			if(user){
 				if(checkPassword(input.password, user.password, next)){

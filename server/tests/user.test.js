@@ -1,19 +1,16 @@
 const request = require('supertest');
 const app = require('../app')
 const validUser = {
-    username: 'Admin',
-    role: 'Admin',
+    username: 'kjuliosabandar@gmail.com',
     password: 'password'
 }
 const invalidPassword = {
-    username: 'Admin',
-    role: 'Admin',
+    username: 'kjuliosabandar@gmail.com',
     password: 'falsepassword'
 }
 
 const invalidUsername = {
-    username: 'falseAdmin',
-    role: 'Admin',
+    email: 'falseAdmin@gmail.com',
     password: 'password'
 }
 
