@@ -8,7 +8,7 @@ Links:
 ## RESTful endpoints
 
 ### GET /product
-> Get task item by id
+> Get product item by id
 
 _Request Header_
 ```
@@ -56,8 +56,8 @@ _Response (500 - Internal Server Error)_
 ```
 
 ---
-### POST /task
-> Add task item to database
+### POST /product
+> Add product item to database
 
 _Request Header_
 ```
@@ -115,8 +115,8 @@ _Response (500 - Internal Server Error)_
 
 ---
 
-### PUT /task/:id
-> Edit Task item in database by id
+### PUT /product/:id
+> Edit Product item in database by id
 
 _Request Header_
 ```
@@ -193,7 +193,7 @@ _Response (500 - Internal Server Error)_
 ---
 
 ### DELETE /todos/:id
-> Delete task item from database by id
+> Delete product item from database by id
 
 _Request Header_
 ```
