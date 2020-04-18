@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-dark bg-dark">
         <div class="title" >
-            <h2 class="app_name"> Tokotai </h2>
+            <h2 class="app_name"> Shopbae CMS </h2>
         </div>
         <div class="signout">
             <button v-if="isLoggedIn" type="button" v-on:click.stop="signOut" class="btn btn-danger">Sign Out</button>

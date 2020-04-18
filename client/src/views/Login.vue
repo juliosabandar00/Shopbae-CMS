@@ -31,12 +31,15 @@
                 }
                 this.$store.dispatch("doLogin", loginInput)
                 .then(result=>{
-                    console.log('aaaaaaa');
-                    this.$router.push('/inventory');
+                    if(result.status == 200){
+                        this.$router.push('/inventory');
+                        swal("Welcome!", 'You are logged in', "success");
+                    }
+                    console.log(result)                    
                 })
                 .catch(err=>{
                     console.log(err);
-                })
+                });
             }
         }
     }

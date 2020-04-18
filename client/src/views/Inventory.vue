@@ -13,6 +13,7 @@
                     <tr>
                     <th scope="col">ID</th>
                     <th scope="col">Name</th>
+                    <th scope="col">Image</th>
                     <th scope="col">Price</th>
                     <th scope="col">Stock</th>
                     <th scope="col">Actions</th>
@@ -24,6 +25,7 @@
                         <td>
                             {{product.name}} 
                         </td>
+                        <td> <img :src="product.image_url" alt="" border=3 height=100> </td>
                         <td>{{product.price}}</td>
                         <td>{{product.stock}}</td>
                         <td>
@@ -43,8 +45,6 @@
 <script>
     import AddProduct from '../components/AddProduct.vue';
     import EditProduct from '../components/UpdateProduct.vue'
-    const url = 'http://localhost:5000';
-    const access_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoia2p1bGlvc2FiYW5kYXJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJBZG1pbiIsInJvbGUiOiJBZG1pbiIsImlhdCI6MTU4Njk0MjI2OH0.hyVrnkvH4N32iUGTiQxpbdXfqzkQCapl3zIoaq0hnJo';
     export default {
         name: 'Inventory',
         components: {
@@ -67,7 +67,21 @@
                 this.$store.dispatch('getProducts');
             },
             deleteProduct: function(id){
-                this.$store.dispatch('deleteProduct', id)
+                swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this product!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if(willDelete) {
+                        return this.$store.dispatch('deleteProduct', id)
+                    }
+                    else {
+                        swal("Your product is safe!");
+                    }
+                })
                 .then(response=>{
                     console.log(response);
                     this.$store.dispatch('checkLogin')

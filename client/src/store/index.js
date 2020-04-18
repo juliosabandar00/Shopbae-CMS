@@ -43,7 +43,9 @@ export default new Vuex.Store({
       .then(response=>{
         commit('SET_PRODUCTS', response.data.products)
       })
-      .catch(console.log)
+      .catch(err =>{
+        swal("Error!", err.message, "error");
+      })
     },
     addProduct({ commit }, payload){
       console.log('massukkkkk')
@@ -63,6 +65,9 @@ export default new Vuex.Store({
       .then(response=>{
         console.log(response)
       })
+      .catch(err=>{
+        swal("Error!", 'Invalid Field(s)', "error");
+      })
     },
     deleteProduct({commit}, payload){
       console.log('deletingggg')
@@ -75,10 +80,12 @@ export default new Vuex.Store({
         }
       })
       .then(response=>{
-        console.log(response);
+        swal("Your product has been deleted!", {
+          icon: "success",
+        });
       })
       .catch(err=>{
-        console.log(err);
+        swal("Error!", 'Cannot Delete Product', "error");
       })
     },
 
@@ -102,7 +109,7 @@ export default new Vuex.Store({
         console.log(response);
       })
       .catch(err=>{
-        console.log(err);
+        swal("Error!", 'Invalid Field(s)', "error");
       })
 
     },
@@ -119,9 +126,10 @@ export default new Vuex.Store({
           console.log('logged in')
           commit('SET_ISLOGGEDIN', true);
           localStorage.setItem('access_token', response.data.access_token);
+          return response;
         })
         .catch(err =>{
-          console.log(err);
+          swal("Error!", 'Incorrect Email/Password', "error");
         })
     }
   },

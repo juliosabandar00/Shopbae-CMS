@@ -6,6 +6,9 @@ function errorHandler (err, req, res, next) {
         else if(err.name == 'SequelizeValidationError'){
             res.status(400).json({message : 'Invalid Input'});
         }
+        else if(err.name == 'SequelizeUniqueConstraintError'){
+            res.status(401).json({message : 'Email is taken'});
+        }
         else if(err.message == 'Product Not Found'){
             res.status(404).json({message : 'Product Not Found'});
         }
