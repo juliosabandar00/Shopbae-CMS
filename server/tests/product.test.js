@@ -26,18 +26,19 @@ const negative_product = {
     stock: -10
 }
 const validUser = {
-    email: 'kjuliosabandar@gmail.com',
+    email: 'admin@gmail.com',
     password: 'password'
 }
 let access_token = null;
 let invalid_access_token = null;
 let non_admin_access_token = null;
-let id = 12;
-let invalidId = 99;
+
+let id = null;
+let invalidId = 10000000;
 beforeAll(() => {
     non_admin_access_token = jwt.sign({
         userId: 1,
-        email: 'kjuliosabandar@gmail.com',
+        email: 'admin@gmail.com',
         username: 'Admin',
         role: 'Customer'
     }, process.env.JWT_SECRETKEY);
@@ -73,7 +74,7 @@ describe('Product routes testing', () => {
             .then(response=>{
                 const {body,status} = response;
                 expect(status).toBe(201);
-                console.log(body)
+                id = body.product.id;
                 expect(body.product).toHaveProperty('id')
                 expect(body.product).toHaveProperty('name', created_product.name);
                 expect(body.product).toHaveProperty('image_url', created_product.image_url);
